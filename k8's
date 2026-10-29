@@ -1,0 +1,306 @@
+Listing **every single `kubectl` command and flag** isn’t practical (there are hundreds), but here’s a **complete, real-world kubectl cheat sheet** covering **all major commands**, grouped logically. This is what most Kubernetes users and exams (CKA/CKAD) expect you to know.
+
+---
+
+# 🔹 kubectl Command Cheat Sheet
+
+## 1️⃣ Cluster & Context Commands
+
+```bash
+kubectl cluster-info
+kubectl version
+kubectl api-resources
+kubectl api-versions
+```
+
+### Context & config
+
+```bash
+kubectl config get-contexts
+kubectl config current-context
+kubectl config use-context <context>
+kubectl config view
+```
+
+---
+
+## 2️⃣ Get Commands (Read resources)
+
+```bash
+kubectl get nodes
+kubectl get pods
+kubectl get svc
+kubectl get deployments
+kubectl get rs
+kubectl get ns
+kubectl get all
+```
+
+### With options
+
+```bash
+kubectl get pods -o wide
+kubectl get pods -o yaml
+kubectl get pods -o json
+kubectl get pods --show-labels
+kubectl get pods -n <namespace>
+```
+
+---
+
+## 3️⃣ Describe & Explain
+
+```bash
+kubectl describe pod <pod-name>
+kubectl describe node <node-name>
+kubectl describe svc <service-name>
+```
+
+### Explain fields (very useful)
+
+```bash
+kubectl explain pod
+kubectl explain pod.spec
+kubectl explain pod.spec.containers
+```
+
+---
+
+## 4️⃣ Create, Apply, Delete
+
+### Create resources
+
+```bash
+kubectl create deployment nginx --image=nginx
+kubectl create service clusterip mysvc --tcp=80:80
+kubectl create namespace dev
+kubectl create configmap mycm --from-literal=key=value
+kubectl create secret generic mysecret --from-literal=pwd=123
+```
+
+### Apply YAML (declarative)
+
+```bash
+kubectl apply -f pod.yaml
+kubectl apply -f .
+```
+
+### Delete resources
+
+```bash
+kubectl delete pod <pod-name>
+kubectl delete deployment <name>
+kubectl delete -f pod.yaml
+kubectl delete all --all
+```
+
+---
+
+## 5️⃣ Pod Debugging & Logs
+
+```bash
+kubectl logs <pod-name>
+kubectl logs <pod-name> -c <container>
+kubectl logs -f <pod-name>
+```
+
+### Exec into container
+
+```bash
+kubectl exec -it <pod-name> -- /bin/sh
+kubectl exec -it <pod-name> -c <container> -- bash
+```
+
+---
+
+## 6️⃣ Scaling & Rollouts
+
+### Scale
+
+```bash
+kubectl scale deployment nginx --replicas=5
+```
+
+### Rollouts
+
+```bash
+kubectl rollout status deployment nginx
+kubectl rollout history deployment nginx
+kubectl rollout undo deployment nginx
+kubectl rollout undo deployment nginx --to-revision=2
+```
+
+---
+
+## 7️⃣ Labels & Annotations
+
+### Labels
+
+```bash
+kubectl label pod mypod env=prod
+kubectl label node node1 disktype=ssd
+kubectl label pod mypod env=prod --overwrite
+kubectl label pod mypod env-
+```
+
+### Annotations
+
+```bash
+kubectl annotate pod mypod description="test pod"
+kubectl annotate pod mypod description-
+```
+
+---
+
+## 8️⃣ Taints & Tolerations
+
+```bash
+kubectl taint nodes node1 key=value:NoSchedule
+kubectl taint nodes node1 key=value:NoExecute
+kubectl taint nodes node1 key:NoSchedule-
+```
+
+---
+
+## 9️⃣ Namespaces
+
+```bash
+kubectl get ns
+kubectl create ns dev
+kubectl delete ns dev
+kubectl config set-context --current --namespace=dev
+```
+
+---
+
+## 🔟 ConfigMaps & Secrets
+
+```bash
+kubectl get cm
+kubectl get secret
+
+kubectl create cm app-config --from-file=config.txt
+kubectl create secret generic db-secret --from-literal=password=123
+```
+
+---
+
+## 1️⃣1️⃣ Services & Networking
+
+```bash
+kubectl get svc
+kubectl expose deployment nginx --port=80 --type=NodePort
+kubectl port-forward pod/mypod 8080:80
+```
+
+---
+
+## 1️⃣2️⃣ Resource Usage & Metrics
+
+```bash
+kubectl top nodes
+kubectl top pods
+kubectl top pods -n kube-system
+```
+
+---
+
+## 1️⃣3️⃣ Events & Troubleshooting
+
+```bash
+kubectl get events
+kubectl get events --sort-by=.metadata.creationTimestamp
+```
+
+---
+
+## 1️⃣4️⃣ RBAC (Security)
+
+```bash
+kubectl get sa
+kubectl get roles
+kubectl get rolebindings
+kubectl get clusterroles
+kubectl get clusterrolebindings
+```
+
+---
+
+## 1️⃣5️⃣ Drain, Cordon, Uncordon (Node maintenance)
+
+```bash
+kubectl cordon node1
+kubectl uncordon node1
+kubectl drain node1 --ignore-daemonsets
+```
+
+---
+
+## 1️⃣6️⃣ Short Names (VERY important)
+
+```bash
+po   → pods
+rs   → replicasets
+deploy → deployments
+svc  → services
+ns   → namespaces
+no   → nodes
+cm   → configmaps
+sa   → serviceaccounts
+```
+
+Example:
+
+```bash
+kubectl get po
+kubectl delete svc mysvc
+```
+
+---
+
+## 1️⃣7️⃣ Global kubectl options
+
+```bash
+-n <namespace>
+--all-namespaces
+-o yaml
+-o json
+--dry-run=client
+--force
+--grace-period=0
+```
+
+---
+
+## 🧠 Must-know commands (exam & real life)
+
+```bash
+kubectl get pods -o wide
+kubectl describe pod
+kubectl logs
+kubectl exec -it
+kubectl apply -f
+kubectl delete -f
+kubectl explain
+```
+
+---
+
+### 📌 Final note
+
+There is **no single “kubectl all commands” output** you need to memorize.
+Instead, master:
+
+* `get`
+* `describe`
+* `apply`
+* `logs`
+* `exec`
+* `explain`
+
+If you want, I can:
+
+* Create a **1-page printable kubectl cheat sheet**
+* Share **CKA/CKAD-focused kubectl commands**
+* Give **real troubleshooting scenarios using kubectl**
+  
